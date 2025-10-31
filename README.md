@@ -4,7 +4,7 @@ A comprehensive React-based HR management system for managing jobs, candidates, 
 
 ## 🚀 Live Demo
 
-[Live Demo Link] - *(To be added after deployment)*
+[Live Demo Link] - (https://talent-flow-git-main-tanushree-dhotes-projects.vercel.app/jobs)
 
 ## 📋 Table of Contents
 
