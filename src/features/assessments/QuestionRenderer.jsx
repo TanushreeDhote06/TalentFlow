@@ -15,7 +15,7 @@ export default function QuestionRenderer({
     const file = e.target.files?.[0];
     if (file) {
       setFileInfo({ name: file.name, size: file.size });
-      onChange(file.name);
+      onChange(file.name); // Just store the name for demo purposes
     }
   };
 

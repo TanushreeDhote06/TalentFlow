@@ -4,7 +4,7 @@ const initialState = {
   modals: {
     jobForm: {
       isOpen: false,
-      jobId: null,
+      jobId: null, // null for create, number for edit
     },
   },
   toasts: [],
@@ -28,7 +28,7 @@ const uiSlice = createSlice({
     showToast: (state, action) => {
       const toast = {
         id: Date.now(),
-        type: action.payload.type || 'info',
+        type: action.payload.type || 'info', // success, error, warning, info
         message: action.payload.message,
         duration: action.payload.duration || 3000,
       };

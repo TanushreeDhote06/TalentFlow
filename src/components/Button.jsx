@@ -1,16 +1,15 @@
 import clsx from 'clsx';
 
 const variants = {
-  primary: 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800',
-  secondary: 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 border border-gray-100 hover:from-gray-200 hover:to-gray-300',
-  danger: 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800',
-  success: 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800',
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  danger: 'btn-danger',
 };
 
 const sizes = {
   sm: 'px-3 py-1.5 text-sm',
-  md: 'px-5 py-2.5 text-base',
-  lg: 'px-7 py-3.5 text-lg',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-6 py-3 text-lg',
 };
 
 export default function Button({
@@ -28,17 +27,10 @@ export default function Button({
     <button
       type={type}
       className={clsx(
-        'inline-flex items-center justify-center font-medium rounded-lg',
-        'transition-all duration-300 ease-in-out transform hover:scale-105',
-        'shadow-md hover:shadow-lg active:shadow-sm',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2',
+        'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
         variants[variant],
-        variant === 'primary' && 'focus:ring-primary-500',
-        variant === 'secondary' && 'focus:ring-gray-400',
-        variant === 'danger' && 'focus:ring-red-500',
-        variant === 'success' && 'focus:ring-green-500',
         sizes[size],
-        (disabled || loading) && 'opacity-50 cursor-not-allowed hover:scale-100',
+        (disabled || loading) && 'opacity-50 cursor-not-allowed',
         className
       )}
       disabled={disabled || loading}
@@ -67,7 +59,8 @@ export default function Button({
           />
         </svg>
       )}
-      <span className="relative">{children}</span>
+      {children}
     </button>
   );
 }
+

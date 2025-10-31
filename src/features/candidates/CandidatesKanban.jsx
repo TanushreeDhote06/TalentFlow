@@ -8,7 +8,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import {
+import { 
   ListBulletIcon,
   ViewColumnsIcon,
   ArrowLeftIcon,
@@ -45,6 +45,7 @@ export default function CandidatesKanban() {
     dispatch(fetchCandidates({}));
   }, [dispatch]);
 
+  // Group candidates by stage
   const candidatesByStage = stages.reduce((acc, stage) => {
     acc[stage.id] = items.filter((c) => c.stage === stage.id);
     return acc;
@@ -58,6 +59,7 @@ export default function CandidatesKanban() {
     const { over } = event;
     if (!over) return;
 
+    // You can add visual feedback here if needed
   };
 
   const handleDragEnd = async (event) => {
@@ -72,6 +74,7 @@ export default function CandidatesKanban() {
     const candidate = items.find((c) => c.id === candidateId);
     if (!candidate || candidate.stage === newStage) return;
 
+    // Update candidate stage
     try {
       await dispatch(
         updateCandidateStage({
@@ -104,9 +107,9 @@ export default function CandidatesKanban() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Candidates - Kanban View</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Candidates - Kanban View</h1>
           <p className="text-sm text-gray-500 mt-1">
             Drag candidates between stages
           </p>
@@ -116,11 +119,17 @@ export default function CandidatesKanban() {
             variant="secondary"
             size="sm"
             onClick={() => dispatch(setViewMode('list'))}
+            className="w-full sm:w-auto"
           >
-            <ListBulletIcon className="h-5 w-5 mr-2" />
-            List View
+            <ListBulletIcon className="h-5 w-5 sm:mr-2" />
+            <span className="sm:inline">List View</span>
           </Button>
         </div>
+      </div>
+
+      {/* Scroll hint for mobile */}
+      <div className="sm:hidden mb-3 text-xs text-gray-500 text-center">
+        ← Swipe to see all stages →
       </div>
 
       {/* Kanban Board */}
@@ -131,7 +140,7 @@ export default function CandidatesKanban() {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4">
+        <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
           {stages.map((stage) => (
             <KanbanColumn
               key={stage.id}

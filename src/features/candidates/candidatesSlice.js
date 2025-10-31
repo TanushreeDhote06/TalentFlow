@@ -7,9 +7,9 @@ export const fetchCandidates = createAsyncThunk(
     const params = new URLSearchParams({
       search,
       stage,
-      pageSize: '10000',
+      pageSize: '10000', // Get all for virtualization
     });
-
+    
     const response = await fetch(`/api/candidates?${params}`);
     if (!response.ok) throw new Error('Failed to fetch candidates');
     return await response.json();
@@ -42,12 +42,12 @@ export const createCandidate = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(candidateData),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Failed to create candidate');
     }
-
+    
     return await response.json();
   }
 );
@@ -60,12 +60,12 @@ export const updateCandidate = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updates),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Failed to update candidate');
     }
-
+    
     return await response.json();
   }
 );
@@ -78,12 +78,12 @@ export const updateCandidateStage = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ stage, notes }),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Failed to update candidate stage');
     }
-
+    
     return await response.json();
   }
 );
@@ -97,7 +97,7 @@ const initialState = {
     stage: '',
     followUpOnly: false,
   },
-  viewMode: 'list',
+  viewMode: 'list', // 'list' or 'kanban'
   loading: false,
   error: null,
 };
@@ -119,6 +119,7 @@ const candidatesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Fetch candidates
       .addCase(fetchCandidates.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -131,7 +132,8 @@ const candidatesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-
+      
+      // Fetch candidate by ID
       .addCase(fetchCandidateById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -144,7 +146,8 @@ const candidatesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-
+      
+      // Fetch timeline
       .addCase(fetchCandidateTimeline.pending, (state) => {
         state.error = null;
       })
@@ -154,7 +157,8 @@ const candidatesSlice = createSlice({
       .addCase(fetchCandidateTimeline.rejected, (state, action) => {
         state.error = action.error.message;
       })
-
+      
+      // Create candidate
       .addCase(createCandidate.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -167,7 +171,8 @@ const candidatesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-
+      
+      // Update candidate
       .addCase(updateCandidate.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -186,7 +191,8 @@ const candidatesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-
+      
+      // Update candidate stage
       .addCase(updateCandidateStage.pending, (state) => {
         state.error = null;
       })

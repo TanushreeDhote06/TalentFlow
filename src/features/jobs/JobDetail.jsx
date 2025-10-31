@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  ArrowLeftIcon,
-  PencilIcon,
+import { 
+  ArrowLeftIcon, 
+  PencilIcon, 
   DocumentTextIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
@@ -28,11 +28,13 @@ export default function JobDetail() {
   }, [dispatch, jobId]);
 
   useEffect(() => {
+    // Fetch candidates for this job
     const loadCandidates = async () => {
       const jobCandidates = await dbHelpers.getCandidatesByJob(parseInt(jobId));
       setCandidates(jobCandidates);
     };
 
+    // Check if assessment exists
     const checkAssessment = async () => {
       const assessment = await dbHelpers.getAssessment(parseInt(jobId));
       setHasAssessment(!!assessment);
@@ -60,9 +62,9 @@ export default function JobDetail() {
           Back to Jobs
         </Button>
 
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               {currentJob.title}
             </h1>
             <div className="flex flex-wrap gap-2 mb-4">
@@ -76,7 +78,7 @@ export default function JobDetail() {
               ))}
             </div>
           </div>
-          <Button onClick={() => dispatch(openJobFormModal(currentJob.id))}>
+          <Button onClick={() => dispatch(openJobFormModal(currentJob.id))} className="w-full sm:w-auto">
             <PencilIcon className="h-5 w-5 mr-2" />
             Edit Job
           </Button>
@@ -84,7 +86,7 @@ export default function JobDetail() {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Left Column - Details */}
         <div className="lg:col-span-2 space-y-6">
           <div className="card">

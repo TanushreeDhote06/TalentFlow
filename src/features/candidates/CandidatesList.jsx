@@ -2,8 +2,8 @@ import { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import {
-  FunnelIcon,
+import { 
+  FunnelIcon, 
   ViewColumnsIcon,
   ListBulletIcon,
   FlagIcon,
@@ -81,11 +81,11 @@ export default function CandidatesList() {
   }
 
   return (
-    <div className='bg-zinc-100'>
+    <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 bg-zinc-50">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-black ">Candidates</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Candidates</h1>
           <p className="text-sm text-gray-500 mt-1">
             {filteredCandidates.length} candidates found
           </p>
@@ -95,22 +95,26 @@ export default function CandidatesList() {
             variant={viewMode === 'list' ? 'primary' : 'secondary'}
             size="sm"
             onClick={() => dispatch(setViewMode('list'))}
+            className="flex-1 sm:flex-initial"
           >
-            <ListBulletIcon className="h-5 w-5" />
+            <ListBulletIcon className="h-5 w-5 sm:mr-2" />
+            <span className="hidden sm:inline">List</span>
           </Button>
           <Button
             variant={viewMode === 'kanban' ? 'primary' : 'secondary'}
             size="sm"
             onClick={() => dispatch(setViewMode('kanban'))}
+            className="flex-1 sm:flex-initial"
           >
-            <ViewColumnsIcon className="h-5 w-5" />
+            <ViewColumnsIcon className="h-5 w-5 sm:mr-2" />
+            <span className="hidden sm:inline">Kanban</span>
           </Button>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="mb-6 space-y-4 ">
-        <div className="flex gap-4">
+      <div className="mb-6 space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <Input
             placeholder="Search by name or email..."
             value={localSearch}
@@ -120,15 +124,16 @@ export default function CandidatesList() {
           <Button
             variant="secondary"
             onClick={() => setShowFilters(!showFilters)}
+            className="w-full sm:w-auto"
           >
-            <FunnelIcon className="h-5 w-5 mr-2" />
-            Filters
+            <FunnelIcon className="h-5 w-5 sm:mr-2" />
+            <span className="sm:inline">Filters</span>
           </Button>
         </div>
 
         {showFilters && (
           <div className="card">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select
                 label="Stage"
                 value={filters.stage}

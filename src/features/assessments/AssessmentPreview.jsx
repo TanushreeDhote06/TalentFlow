@@ -24,6 +24,7 @@ export default function AssessmentPreview() {
   useEffect(() => {
     dispatch(fetchAssessment(parseInt(jobId)));
 
+    // Load job info
     const loadJob = async () => {
       const jobData = await dbHelpers.getJob(parseInt(jobId));
       setJob(jobData);
@@ -31,6 +32,7 @@ export default function AssessmentPreview() {
     loadJob();
   }, [dispatch, jobId]);
 
+  // Check if a question should be shown based on conditional logic
   const shouldShowQuestion = (question) => {
     if (!question.conditional || !question.conditional.questionId) {
       return true;
@@ -45,7 +47,8 @@ export default function AssessmentPreview() {
       ...prev,
       [questionId]: value,
     }));
-
+    
+    // Clear error for this question
     if (errors[questionId]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -76,6 +79,7 @@ export default function AssessmentPreview() {
           }
         }
 
+        // Validate numeric range
         if (question.type === 'numeric' && responses[question.id] !== undefined) {
           const value = parseFloat(responses[question.id]);
           if (question.min !== undefined && value < question.min) {
@@ -88,6 +92,7 @@ export default function AssessmentPreview() {
           }
         }
 
+        // Validate max length
         if (
           (question.type === 'short-text' || question.type === 'long-text') &&
           question.maxLength &&
@@ -134,6 +139,7 @@ export default function AssessmentPreview() {
         })
       );
 
+      // Navigate back to assessment builder
       navigate(`/assessments/${jobId}`);
     } catch (error) {
       dispatch(
@@ -177,7 +183,7 @@ export default function AssessmentPreview() {
       <form onSubmit={handleSubmit} className="space-y-8">
         {currentAssessment.sections?.map((section) => {
           const visibleQuestions = section.questions?.filter(shouldShowQuestion) || [];
-
+          
           if (visibleQuestions.length === 0) return null;
 
           return (

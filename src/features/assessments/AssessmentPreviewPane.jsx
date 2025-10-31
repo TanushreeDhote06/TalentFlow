@@ -4,6 +4,7 @@ import QuestionRenderer from './QuestionRenderer';
 export default function AssessmentPreviewPane({ sections }) {
   const [responses, setResponses] = useState({});
 
+  // Check if a question should be shown based on conditional logic
   const shouldShowQuestion = (question) => {
     if (!question.conditional || !question.conditional.questionId) {
       return true;

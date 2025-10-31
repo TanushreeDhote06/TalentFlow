@@ -11,16 +11,20 @@ db.version(1).stores({
   metadata: 'key'
 });
 
+// Helper functions for database operations
 export const dbHelpers = {
+  // Check if database is seeded
   async isSeeded() {
     const metadata = await db.metadata.get('seeded');
     return metadata?.value === true;
   },
 
+  // Mark database as seeded
   async markSeeded() {
     await db.metadata.put({ key: 'seeded', value: true });
   },
 
+  // Clear all data
   async clearAll() {
     await db.jobs.clear();
     await db.candidates.clear();
@@ -55,6 +59,7 @@ export const dbHelpers = {
     return await db.jobs.delete(id);
   },
 
+  // Candidates operations
   async getAllCandidates() {
     return await db.candidates.toArray();
   },
@@ -79,6 +84,7 @@ export const dbHelpers = {
     return await db.candidates.delete(id);
   },
 
+  // Timeline operations
   async getCandidateTimeline(candidateId) {
     return await db.candidateTimeline
       .where('candidateId')
@@ -90,6 +96,7 @@ export const dbHelpers = {
     return await db.candidateTimeline.add(entry);
   },
 
+  // Assessments operations
   async getAssessment(jobId) {
     return await db.assessments.where('jobId').equals(jobId).first();
   },
@@ -109,6 +116,7 @@ export const dbHelpers = {
     }
   },
 
+  // Assessment responses operations
   async getAssessmentResponse(candidateId, jobId) {
     return await db.assessmentResponses
       .where(['candidateId', 'jobId'])

@@ -7,7 +7,7 @@ export const fetchAssessment = createAsyncThunk(
     const response = await fetch(`/api/assessments/${jobId}`);
     if (!response.ok) {
       if (response.status === 404) {
-        return null;
+        return null; // No assessment exists yet
       }
       throw new Error('Failed to fetch assessment');
     }
@@ -23,12 +23,12 @@ export const saveAssessment = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sections }),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Failed to save assessment');
     }
-
+    
     return await response.json();
   }
 );
@@ -41,12 +41,12 @@ export const submitAssessmentResponse = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ candidateId, responses }),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Failed to submit assessment');
     }
-
+    
     return await response.json();
   }
 );
@@ -57,7 +57,7 @@ export const fetchAssessmentResponse = createAsyncThunk(
     const response = await fetch(`/api/assessments/${jobId}/responses/${candidateId}`);
     if (!response.ok) {
       if (response.status === 404) {
-        return null;
+        return null; // No response exists yet
       }
       throw new Error('Failed to fetch assessment response');
     }
@@ -70,8 +70,8 @@ const initialState = {
   currentJobId: null,
   sections: [],
   previewMode: false,
-  responses: {},
-  candidateResponse: null,
+  responses: {}, // For filling out the assessment
+  candidateResponse: null, // Submitted response
   loading: false,
   saving: false,
   error: null,
@@ -169,6 +169,7 @@ const assessmentsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Fetch assessment
       .addCase(fetchAssessment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -185,7 +186,8 @@ const assessmentsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-
+      
+      // Save assessment
       .addCase(saveAssessment.pending, (state) => {
         state.saving = true;
         state.error = null;
@@ -198,7 +200,8 @@ const assessmentsSlice = createSlice({
         state.saving = false;
         state.error = action.error.message;
       })
-
+      
+      // Submit assessment response
       .addCase(submitAssessmentResponse.pending, (state) => {
         state.saving = true;
         state.error = null;
@@ -211,7 +214,8 @@ const assessmentsSlice = createSlice({
         state.saving = false;
         state.error = action.error.message;
       })
-
+      
+      // Fetch assessment response
       .addCase(fetchAssessmentResponse.pending, (state) => {
         state.loading = true;
         state.error = null;

@@ -55,6 +55,7 @@ export default function JobFormModal() {
     setErrors({});
   }, [isOpen, existingJob]);
 
+  // Auto-generate slug from title
   useEffect(() => {
     if (!isEditing && formData.title) {
       const slug = formData.title
@@ -68,7 +69,8 @@ export default function JobFormModal() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
+    
+    // Clear error for this field
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -93,6 +95,7 @@ export default function JobFormModal() {
     if (!formData.slug.trim()) {
       newErrors.slug = 'Slug is required';
     } else {
+      // Check for duplicate slug
       const duplicateSlug = items.find(
         j => j.slug === formData.slug && j.id !== jobId
       );
@@ -105,7 +108,7 @@ export default function JobFormModal() {
       const expDate = new Date(formData.expirationDate);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
+      
       if (expDate < today) {
         newErrors.expirationDate = 'Expiration date must be in the future';
       }
@@ -125,7 +128,7 @@ export default function JobFormModal() {
     try {
       const jobData = {
         ...formData,
-        expirationDate: formData.expirationDate
+        expirationDate: formData.expirationDate 
           ? new Date(formData.expirationDate).toISOString()
           : null,
       };
@@ -137,6 +140,7 @@ export default function JobFormModal() {
           message: 'Job updated successfully',
         }));
       } else {
+        // Add order based on current jobs count
         jobData.order = items.length;
         await dispatch(createJob(jobData)).unwrap();
         dispatch(showToast({
@@ -146,7 +150,8 @@ export default function JobFormModal() {
       }
 
       dispatch(closeJobFormModal());
-
+      
+      // Refresh jobs list
       dispatch(fetchJobs({}));
     } catch (error) {
       dispatch(showToast({
@@ -227,10 +232,11 @@ export default function JobFormModal() {
                 key={tag}
                 type="button"
                 onClick={() => handleTagToggle(tag)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${formData.tags.includes(tag)
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  formData.tags.includes(tag)
                     ? 'bg-primary-100 text-primary-800 border-2 border-primary-500'
                     : 'bg-gray-100 text-gray-700 border-2 border-transparent hover:bg-gray-200'
-                  }`}
+                }`}
               >
                 {tag}
               </button>

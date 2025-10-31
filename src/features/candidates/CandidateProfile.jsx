@@ -136,20 +136,20 @@ export default function CandidateProfile() {
           Back to Candidates
         </Button>
 
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 {currentCandidate.name}
               </h1>
               {currentCandidate.followUp && (
-                <FlagIcon className="h-6 w-6 text-yellow-500" />
+                <FlagIcon className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500" />
               )}
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600">
               <div className="flex items-center">
                 <EnvelopeIcon className="h-4 w-4 mr-1" />
-                {currentCandidate.email}
+                <span className="truncate">{currentCandidate.email}</span>
               </div>
               <Badge variant="info">{currentCandidate.stage}</Badge>
             </div>
@@ -158,7 +158,7 @@ export default function CandidateProfile() {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Left Column - Details & Timeline */}
         <div className="lg:col-span-2 space-y-6">
           {/* Candidate Info */}

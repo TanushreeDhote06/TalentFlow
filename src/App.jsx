@@ -13,6 +13,7 @@ import AssessmentPreview from './features/assessments/AssessmentPreview';
 
 function AppContent() {
   useEffect(() => {
+    // Initialize database on app load
     fetch('/api/init').catch(console.error);
   }, []);
 

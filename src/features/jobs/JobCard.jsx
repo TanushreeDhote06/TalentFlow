@@ -2,8 +2,8 @@ import { useDispatch } from 'react-redux';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Link } from 'react-router-dom';
-import {
-  ArchiveBoxIcon,
+import { 
+  ArchiveBoxIcon, 
   ArchiveBoxXMarkIcon,
   PencilIcon,
   Bars3Icon,
@@ -18,7 +18,7 @@ import Button from '../../components/Button';
 
 export default function JobCard({ job }) {
   const dispatch = useDispatch();
-
+  
   const {
     attributes,
     listeners,
@@ -37,11 +37,11 @@ export default function JobCard({ job }) {
   const handleArchiveToggle = async () => {
     const newStatus = job.status === 'active' ? 'archived' : 'active';
     try {
-      await dispatch(updateJob({
-        id: job.id,
-        updates: { status: newStatus }
+      await dispatch(updateJob({ 
+        id: job.id, 
+        updates: { status: newStatus } 
       })).unwrap();
-
+      
       dispatch(showToast({
         type: 'success',
         message: `Job ${newStatus === 'archived' ? 'archived' : 'activated'} successfully`,
@@ -54,6 +54,7 @@ export default function JobCard({ job }) {
     }
   };
 
+  // Check expiration
   const expirationDate = job.expirationDate ? parseISO(job.expirationDate) : null;
   const isExpired = expirationDate && isPast(expirationDate);
   const daysUntilExpiry = expirationDate ? differenceInDays(expirationDate, new Date()) : null;
@@ -63,7 +64,7 @@ export default function JobCard({ job }) {
     <div
       ref={setNodeRef}
       style={style}
-      className="card hover:shadow-lg transition-shadow bg-gray-50"
+      className="card hover:shadow-md transition-shadow"
     >
       {/* Drag handle */}
       <div className="flex items-start justify-between mb-3">
@@ -72,11 +73,11 @@ export default function JobCard({ job }) {
             <button
               {...attributes}
               {...listeners}
-              className="cursor-grab active:cursor-grabbing text-blue-400 hover:text-gray-600"
+              className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
             >
               <Bars3Icon className="h-5 w-5" />
             </button>
-            <Link
+            <Link 
               to={`/jobs/${job.id}`}
               className="text-lg font-semibold text-gray-900 hover:text-primary-600"
             >

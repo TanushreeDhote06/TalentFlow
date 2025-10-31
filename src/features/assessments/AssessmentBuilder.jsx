@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import {
-  ArrowLeftIcon,
+import { 
+  ArrowLeftIcon, 
   PlusIcon,
   EyeIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-import {
-  fetchAssessment,
-  saveAssessment,
+import { 
+  fetchAssessment, 
+  saveAssessment, 
   initializeAssessment,
   addSection,
   updateSection,
@@ -134,31 +134,32 @@ export default function AssessmentBuilder() {
           Back to Job
         </Button>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Mock Assessment Builder
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+              Assessment Builder
             </h1>
             {job && (
               <p className="text-sm text-gray-500 mt-1">
-                Mock Assessment builder preivew for: {job.title}
+                For: {job.title}
               </p>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Button
               variant="secondary"
               onClick={() => setShowPreview(!showPreview)}
+              className="hidden lg:flex"
             >
               <EyeIcon className="h-5 w-5 mr-2" />
               {showPreview ? 'Hide' : 'Show'} Preview
             </Button>
-            <Link to={`/assessments/${jobId}/preview`}>
-              <Button variant="secondary">
+            <Link to={`/assessments/${jobId}/preview`} className="w-full sm:w-auto">
+              <Button variant="secondary" className="w-full">
                 Full Preview
               </Button>
             </Link>
-            <Button onClick={handleSave} loading={saving}>
+            <Button onClick={handleSave} loading={saving} className="w-full sm:w-auto">
               Save Assessment
             </Button>
           </div>
@@ -166,7 +167,7 @@ export default function AssessmentBuilder() {
       </div>
 
       {/* Builder Layout */}
-      <div className={`grid ${showPreview ? 'grid-cols-2' : 'grid-cols-1'} gap-6`}>
+      <div className={`grid ${showPreview ? 'lg:grid-cols-2' : 'grid-cols-1'} gap-4 sm:gap-6`}>
         {/* Builder Pane */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
